@@ -1,5 +1,4 @@
-package PageObject;
-//Настрои импорты
+package pageObject;//Настрои импорты
 import org.openqa.selenium.*;
 
 import java.text.SimpleDateFormat;
@@ -16,7 +15,7 @@ public class OrderPage {
     //локатор кнопки "заказать", нижняя.
     private  By orderDownButton = By.xpath("//*[@id=\"root\"]/div/div/div[4]/div[2]/div[5]/button");
     //локатор поля "Имя".
-    private By nameField = By.xpath("/html/body/div/div/div[2]/div[2]/div[1]/input");
+    private By nameField = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/input");
     //локатор поля "Фамилия".
     private By surnameField = By.xpath("/html/body/div/div/div[2]/div[2]/div[2]/input");
     //локатор поля "Адрес".
@@ -45,18 +44,27 @@ public class OrderPage {
     public OrderPage(WebDriver driver) {
         this.driver = driver;
     }
+
     // метод для закрытия кнопки куки
     public void closeCookie() {
         driver.findElement(cookieButton).click();
     }
-        //нажатие кнопки "заказать", верхняя.
+
+    //Выбор кнопки заказа
+    public void clickOderButton(boolean upButton) {
+        if(upButton)
+            clickOrderUpButton();
+        else clickOrderDownButton();
+    }
+    //нажатие кнопки "заказать", верхняя.
     public void clickOrderUpButton() {
         driver.findElement(orderUpButton).click();
         }
+
     //нажатие кнопки "заказать", нижняя.
     public void clickOrderDownButton() {
-        WebElement buton = driver.findElement(orderDownButton);
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", buton);
+        WebElement button = driver.findElement(orderDownButton);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", button);
         driver.findElement(orderDownButton).click();
     }
     //заполняет поле "Имя"
@@ -71,23 +79,30 @@ public class OrderPage {
         public void setAdressField(String adress){
                     driver.findElement(adressField).sendKeys(adress);
         }
-    //выбирает станцию метро
-        public void clickUndegroundList() {
-            driver.findElement(undegroundList).click();
-            driver.findElement(By.xpath(".//button[@value='34']")).click();
-         }
-        public void clickUndegroundList1() {
-            driver.findElement(undegroundList).click();
-            driver.findElement(By.xpath(".//button[@value='18']")).click();
-        }
-    //заполняет телефон
-        public void setPhoneNumberField(String number) {
-            driver.findElement(phoneNumberField).sendKeys(number);
-        }
-    //нажимает кнопку "Далее"
+
+        //выбирает станцию метро
+    public void clickUndegroundList(String metro) {
+        driver.findElement(undegroundList).click();
+        driver.findElement(By.xpath(".//button[@value='" + metro + "']")).click();
+    }
+        //заполняет телефон
+    public void setPhoneNumberField(String number) {
+        driver.findElement(phoneNumberField).sendKeys(number);
+    }
+
+    //заполнение полей первой формы заказа
+    public void login (String name, String surname, String adress, String numer) {
+        setNameField(name);
+        setSurnameField(surname);
+        setAdressField(adress);
+        setPhoneNumberField(numer);
+    }
+
+     //нажимает кнопку "Далее"
         public void clickNextButton() {
             driver.findElement(nextButton).click();
         }
+
     //заполняет дату доставки самоката
         public void setOrderDate() {
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy");
@@ -97,23 +112,17 @@ public class OrderPage {
             driver.findElement(orderDate).sendKeys(Keys.ENTER);
         }
     //заполняет срок аренды
-        public void setRentalPeriodToFiveDays() {
+        public void setRentalPeriod(int rentTime) {
         driver.findElement(rentalPeriod).click();
-        driver.findElement(rentalPeriod).findElement(By.xpath("/html/body/div/div/div[2]/div[2]/div[2]/div[2]/div[5]")).click();
+        driver.findElement(rentalPeriod).findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/div[2]/div["+rentTime+"]")).click();
     }
-        public void setRentalPeriodOneDays() {
-        driver.findElement(rentalPeriod).click();
-        driver.findElement(rentalPeriod).findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/div[2]/div[1]")).click();
-    }
+
     //выбирает цвет самоката
-        public void setScooterColourBlack() {
+        public void setScooterColour(String colour) {
             driver.findElement(scooterColour);
-            driver.findElement(By.xpath("//*[@id=\"black\"]")).click();
+            driver.findElement(By.xpath("//*[@id=\""+colour+"\"]")).click();
     }
-        public void setScooterColourGray() {
-            driver.findElement(scooterColour);
-            driver.findElement(By.xpath("//*[@id=\"grey\"]")).click();
-    }
+
     //заполняет поле "Комментарий"
         public void setCommentField(String comment) {
             driver.findElement(commentField).sendKeys(comment);
@@ -129,15 +138,8 @@ public class OrderPage {
     //проверка всплывающего уведомления о создании заказа
        public void setConfirmationButton () {
            String text = driver.findElement(confirmationButton).getText();
-           System.out.println("Текст сообщения" + " " + text);
     }
-    //заполнение полей первой формы заказа
-       public void login (String name, String surname, String adress, String numer) {
-           setNameField(name);
-           setSurnameField(surname);
-           setAdressField(adress);
-           setPhoneNumberField(numer);
-           }
+
 
 }
 
