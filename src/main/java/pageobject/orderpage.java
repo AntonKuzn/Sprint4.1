@@ -1,53 +1,56 @@
-package pageObject;//Настрои импорты
+package pageobject;//Настрои импорты
+import org.junit.Assert;
 import org.openqa.selenium.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class OrderPage {
+public class orderpage {
+  private WebDriver driver;
+    public orderpage(WebDriver driver) {
+       this.driver = driver;
+    }
 
-    private WebDriver driver;
 
     // локатор для кнопки куки
-    private By cookieButton = By.id("rcc-confirm-button");
+    private By cookieButtonMain = By.id("rcc-confirm-button");
     //локатор кнопки "заказать", верхняя.
-    private By orderUpButton = By.xpath("/html/body/div/div/div/div[1]/div[2]/button[1]");
+    private By orderFirstButton = By.cssSelector(".Header_Nav__AGCXC > button:nth-child(1)");
     //локатор кнопки "заказать", нижняя.
-    private  By orderDownButton = By.xpath("//*[@id=\"root\"]/div/div/div[4]/div[2]/div[5]/button");
+    private  By orderSecondButton = By.cssSelector(".Button_Middle__1CSJM");
     //локатор поля "Имя".
-    private By nameField = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/input");
+    private By nameField = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Имя']");
     //локатор поля "Фамилия".
-    private By surnameField = By.xpath("/html/body/div/div/div[2]/div[2]/div[2]/input");
+    private By surnameField = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Фамилия']");
     //локатор поля "Адрес".
-    private By adressField = By.xpath("/html/body/div/div/div[2]/div[2]/div[3]/input");
+    private By adressField = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Адрес: куда привезти заказ']");
     //локатор списка метро.
     private By undegroundList = By.className("select-search__input");
     //локатор поля "Телефон".
-    private By phoneNumberField =  By.xpath("/html/body/div/div/div[2]/div[2]/div[5]/input");
+    private By phoneNumberField =  By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Телефон: на него позвонит курьер']");
     //локатор кнопки "Далее".
-    private By nextButton = By.xpath("/html/body/div/div/div[2]/div[3]/button");
+    private By nextButton = By.cssSelector(".Button_Middle__1CSJM");
     //локатор поля "Когда привезти".
-    private By orderDate = By.xpath("/html/body/div/div/div[2]/div[2]/div[1]/div/div/input");
+    private By orderDate = By.xpath(".//div[@class='react-datepicker__input-container']/input[@placeholder='* Когда привезти самокат']");
     //локатор поля "Срока аренды".
     private By rentalPeriod = By.className("Dropdown-placeholder");
     //локатор поля "Цвет самоката".
-    private By scooterColour = By.xpath("/html/body/div/div/div[2]/div[2]/div[3]");
+    private By scooterColour = By.className("Order_Checkboxes__3lWSI");
     //локатор поля "Комментарии".
-    private By commentField = By.xpath("/html/body/div/div/div[2]/div[2]/div[4]/input");
+    private By commentField = By.cssSelector("div.Input_InputContainer__3NykH:nth-child(4) > input:nth-child(1)");
     //локатор кнопки "заказ", форма заказа.
-    private By orderFormButton = By.xpath("/html/body/div/div/div[2]/div[3]/button[2]");
+    private By orderFormButton = By.xpath(".//div[@class='Order_Buttons__1xGrp']/button[text() = 'Заказать']");
     //локатор кнопки "Да".
-    private By yesButton = By.xpath("/html/body/div/div/div[2]/div[5]/div[2]/button[2]");
+    private By yesButton = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and (text() = 'Да')]");
+    //Информация окна заказа
+    private By orderInfo = By.className("Order_ModalHeader__3FDaJ");
     //локатор кнопки подтверждения.
-    private By confirmationButton = By.xpath("/html/body/div/div/div[2]/div[5]/div[1]");
+    private static By confirmationButton = By.cssSelector(".Order_Text__2broi");
 
-    public OrderPage(WebDriver driver) {
-        this.driver = driver;
-    }
 
     // метод для закрытия кнопки куки
-    public void closeCookie() {
-        driver.findElement(cookieButton).click();
+   public void clickCookie() {
+  driver.findElement(cookieButtonMain).click();
     }
 
     //Выбор кнопки заказа
@@ -58,14 +61,14 @@ public class OrderPage {
     }
     //нажатие кнопки "заказать", верхняя.
     public void clickOrderUpButton() {
-        driver.findElement(orderUpButton).click();
+        driver.findElement(orderFirstButton).click();
         }
 
     //нажатие кнопки "заказать", нижняя.
     public void clickOrderDownButton() {
-        WebElement button = driver.findElement(orderDownButton);
+        WebElement button = driver.findElement(orderSecondButton);
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", button);
-        driver.findElement(orderDownButton).click();
+        driver.findElement(orderSecondButton).click();
     }
     //заполняет поле "Имя"
         public void setNameField(String name) {
@@ -137,12 +140,25 @@ public class OrderPage {
     }
     //проверка всплывающего уведомления о создании заказа
        public void setConfirmationButton () {
-           String text = driver.findElement(confirmationButton).getText();
+          driver.findElement(confirmationButton).getText();
+       }
+    //вывод содержимого сообщения
+    public String getConfirmationButton() {
+       return driver.findElement(By.className("Order_Text__2broi")).getText();
     }
 
+    //проверка окна инфорации
+    public void getConfirmationInfo() {
+        String text = driver.findElement(orderInfo).getText();
+        String textPart = "Заказ оформлен";
+        Assert.assertTrue(text.contains(textPart));
+    }
 
 }
 
+
+
+/* я правда старался отправить нужную ссылку и сделать хороший проект =`) */
 
 
 
