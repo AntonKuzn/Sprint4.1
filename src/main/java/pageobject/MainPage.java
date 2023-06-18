@@ -8,11 +8,11 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 
 
-public class mainpage {
+public class MainPage {
 
     private WebDriver driver;
 
-    public mainpage(WebDriver driver) {
+    public MainPage(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -37,7 +37,7 @@ public class mainpage {
     }
 
     //нажатие на выпадающий список
-    public void clickdropDownMenu(int index) {
+    public void clickDropDownMenu(int index) {
         driver.findElement(By.cssSelector("#accordion__heading-"+index)).click();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(65));
     }

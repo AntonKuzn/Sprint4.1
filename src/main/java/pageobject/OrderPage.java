@@ -5,9 +5,11 @@ import org.openqa.selenium.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class orderpage {
+
+public class OrderPage {
   private WebDriver driver;
-    public orderpage(WebDriver driver) {
+
+    public OrderPage(WebDriver driver) {
        this.driver = driver;
     }
 
@@ -45,7 +47,7 @@ public class orderpage {
     //Информация окна заказа
     private By orderInfo = By.className("Order_ModalHeader__3FDaJ");
     //локатор кнопки подтверждения.
-    private static By confirmationButton = By.cssSelector(".Order_Text__2broi");
+    private By confirmationButton = By.cssSelector(".Order_Text__2broi");
 
 
     // метод для закрытия кнопки куки
@@ -147,7 +149,7 @@ public class orderpage {
        return driver.findElement(By.className("Order_Text__2broi")).getText();
     }
 
-    //проверка окна инфорации
+    //проверка окна информации
     public void getConfirmationInfo() {
         String text = driver.findElement(orderInfo).getText();
         String textPart = "Заказ оформлен";
@@ -158,7 +160,7 @@ public class orderpage {
 
 
 
-/* я правда старался отправить нужную ссылку и сделать хороший проект =`) */
+/* С неймингом перестарался - в итоге сам запутался. Теперь распутался, спасибо!)  */
 
 
 

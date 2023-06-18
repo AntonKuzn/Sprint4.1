@@ -1,7 +1,5 @@
 package test;//Настрои импорты
-import org.hamcrest.MatcherAssert;
-import org.junit.Assert;
-import pageobject.orderpage;
+import pageobject.OrderPage;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.Test;
@@ -10,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 
 @RunWith(Parameterized.class)
-public class scooterordertest extends Config {
+public class ScooterOrderTest extends Config {
 
     //задали переменные для теста
     boolean upButton;
@@ -25,7 +23,7 @@ public class scooterordertest extends Config {
 
 
 
-    public scooterordertest(boolean upButton, String name, String surname, String adress, String undeground, String numer, int rentTime, String comment, String colour) {
+    public ScooterOrderTest(boolean upButton, String name, String surname, String adress, String undeground, String numer, int rentTime, String comment, String colour) {
         this.upButton = upButton;
         this.name = name;
         this.surname = surname;
@@ -54,7 +52,7 @@ public class scooterordertest extends Config {
     @Test
     public void checkOrderScooter() {
         driver.get(Constant.URL);
-        orderpage orderpage = new orderpage(driver);
+        OrderPage orderpage = new OrderPage(driver);
 
         orderpage.clickCookie();
         orderpage.clickOderButton(upButton);

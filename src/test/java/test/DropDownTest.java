@@ -4,13 +4,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import pageobject.mainpage;
+import pageobject.MainPage;
 
 import static org.junit.Assert.assertEquals;
 
 
 @RunWith(Parameterized.class)
-public class dropdowntest extends Config {
+public class DropDownTest extends Config {
 
 
 
@@ -18,7 +18,7 @@ public class dropdowntest extends Config {
     private final String text;
     private final int index;
 
-    public dropdowntest(String text, int index) {
+    public DropDownTest(String text, int index) {
         this.text = text;
         this.index = index;
     }
@@ -39,11 +39,11 @@ public class dropdowntest extends Config {
     @Test
     public void checkdropDownMenu() {
         driver.get(Constant.URL);
-        mainpage mainpage = new mainpage(driver);
-        mainpage.clickCookie();
-        mainpage.scrollToDropDown();
-        mainpage.clickdropDownMenu(index);
-        assertEquals("Текст не совпадает", text, mainpage.getAnswer(index));
+        MainPage mainPage = new MainPage(driver);
+        mainPage.clickCookie();
+        mainPage.scrollToDropDown();
+        mainPage.clickDropDownMenu(index);
+        assertEquals("Текст не совпадает", text, mainPage.getAnswer(index));
     }
 
     }
